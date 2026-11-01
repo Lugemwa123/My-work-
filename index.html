@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tonny Lugemwa Technologies Uganda | Software Solutions</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+/* --- 🌟 NEW: CSS VARIABLES FOR DARK MODE 🌟 --- */
+:root {
+    --bg-color: #ffffff;
+    --text-main: #2d3748;
+    --text-dark: #0b1a2f;
+    --text-light: #4a5568;
+    --card-bg: #ffffff;
+    --border-color: #f0f4fa;
+    --primary: #1e3c72;
+    --accent: #ff6b35;
+    --accent-hover: #e85a2a;
+    --shadow-sm: 0 4px 6px rgba(0,0,0,.02);
+    --shadow-md: 0 10px 25px -5px rgba(0,0,0,.05);
+    --shadow-lg: 0 20px 40px -10px rgba(0,0,0,.1);
+    --radius: 16px;
+}
+[data-theme="dark"] {
+    --bg-color: #0f172a;
+    --text-main: #cbd5e1;
+    --text-dark: #f8fafc;
+    --text-light: #94a3b8;
+    --card-bg: #1e293b;
+    --border-color: #334155;
+    --shadow-sm: 0 4px 6px rgba(0,0,0,.3);
+    --shadow-md: 0 10px 25px -5px rgba(0,0,0,.4);
+    --shadow-lg: 0 20px 40px -10px rgba(0,0,0,.5);
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;line-height:1.6;color:var(--text-main);background:var(--bg-color);transition:background .3s, color .3s}
+.container{max-width:1200px;margin:0 auto;padding:0 24px}
+h1,h2,h3{font-weight:700;line-height:1.2;letter-spacing:-.02em;color:var(--text-dark)}
+h1{font-size:clamp(2.2rem,5vw,3.5rem)}
+h2{font-size:clamp(1.8rem,4vw,2.5rem);margin-bottom:16px}
+h3{font-size:1.35rem;font-weight:600;margin-bottom:10px}
+.section-subhead{font-size:1.15rem;color:var(--text-light);max-width:700px;margin-bottom:40px}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:14px 32px;border-radius:50px;font-weight:600;font-size:1rem;text-decoration:none;transition:all .2s;cursor:pointer;border:none;font-family:inherit}
+.btn-primary{background:var(--accent);color:#fff;box-shadow:0 8px 18px rgba(255,107,53,.25)}
+.btn-primary:hover{background:var(--accent-hover);transform:translateY(-2px)}
+.btn-whatsapp{background:#25D366;color:#fff;box-shadow:0 8px 18px rgba(37,211,102,.3)}
+.btn-whatsapp:hover{background:#1ebe5d;transform:translateY(-2px)}
+
+/* Header & Nav */
+header{background:var(--bg-color);backdrop-filter:blur(12px);box-shadow:0 1px 3px rgba(0,0,0,.04);position:sticky;top:0;z-index:1000;border-bottom:1px solid var(--border-color);transition:background .3s}
+.navbar{display:flex;justify-content:space-between;align-items:center;padding:16px 0}
+.logo{font-size:1.6rem;font-weight:800;letter-spacing:-.03em;color:var(--primary);display:flex;align-items:center;gap:8px;text-decoration:none}
+.logo i{color:var(--accent);font-size:1.8rem}
+.logo span{color:var(--accent)}
+.nav-links{display:flex;gap:32px;list-style:none;align-items:center}
+.nav-links a{text-decoration:none;font-weight:500;color:var(--text-main);font-size:.98rem;transition:color .2s;padding:6px 0;border-bottom:2px solid transparent}
+.nav-links a:hover,.nav-links a.active{color:var(--primary);border-bottom-color:var(--accent)}
+[data-theme="dark"] .nav-links a:hover,[data-theme="dark"] .nav-links a.active{color:var(--accent)}
+.nav-cta{background:var(--accent);color:#fff!important;padding:10px 22px!important;border-radius:50px;border-bottom:none!important;font-weight:600}
+.nav-cta:hover{background:var(--accent-hover)}
+
+/* 🌟 NEW: Dark Mode Toggle Button 🌟 */
+.theme-toggle{background:none;border:none;font-size:1.3rem;color:var(--text-dark);cursor:pointer;padding:8px;display:flex;align-items:center;justify-content:center;transition:transform .2s}
+.theme-toggle:hover{transform:scale(1.1)}
+.menu-toggle{display:none;background:none;border:none;font-size:1.6rem;color:var(--primary);cursor:pointer;padding:6px}
+
+@media(max-width:900px){
+    .nav-links{display:none;position:absolute;top:72px;left:0;right:0;background:var(--bg-color);flex-direction:column;padding:24px;gap:18px;box-shadow:0 20px 30px rgba(0,0,0,.06);border-bottom:1px solid var(--border-color)}
+    .nav-links.show{display:flex}
+    .menu-toggle{display:block}
+    .navbar{position:relative}
+    .nav-controls{display:flex;gap:16px;align-items:center}
+}
+.nav-controls{display:flex;gap:16px;align-items:center}
+
+/* Pages */
+.page{display:none;padding:60px 0 80px;animation:fade .4s ease}
+.page.active-page{display:block}
+@keyframes fade{from{opacity:.5;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* Hero */
+.hero{display:flex;flex-wrap:wrap;align-items:center;gap:50px;padding:20px 0 10px}
+.hero-content{flex:1 1 420px}
+.hero-badge{display:inline-block;background:rgba(30,60,114,.1);color:var(--primary);padding:6px 18px;border-radius:50px;font-size:.9rem;font-weight:600;margin-bottom:20px}
+[data-theme="dark"] .hero-badge{background:rgba(255,107,53,.15);color:var(--accent)}
+.hero h1{margin-bottom:18px;}
+.hero h1 span{color:var(--accent)}
+.hero p{font-size:1.18rem;color:var(--text-light);margin-bottom:30px;max-width:560px}
+.hero-buttons{display:flex;gap:16px;flex-wrap:wrap}
+.hero-social{display:flex;gap:14px;align-items:center;margin-top:24px}
+.hero-social span{font-size:.9rem;color:var(--text-light);font-weight:600}
+.social-icon{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:1.1rem;transition:transform .2s;color:#fff}
+.social-icon:hover{transform:translateY(-3px)}
+.social-tiktok{background:#000}
+.social-instagram{background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)}
+.social-whatsapp{background:#25D366}
+
+/* Hero Photo */
+.hero-photo-wrap{flex:1 1 360px;position:relative;display:flex;justify-content:center;align-items:center}
+.hero-photo{width:100%;max-width:420px;border-radius:32px;box-shadow:var(--shadow-lg);object-fit:cover;aspect-ratio:4/5;border:6px solid var(--card-bg);position:relative;z-index:2}
+.hero-photo-wrap::before{content:'';position:absolute;top:20px;right:20px;bottom:20px;left:20px;background:linear-gradient(145deg,var(--accent),var(--primary));border-radius:32px;transform:rotate(4deg);z-index:1;opacity:.15}
+.hero-photo-badge{position:absolute;bottom:30px;left:-10px;background:var(--card-bg);color:var(--text-dark);padding:12px 20px;border-radius:50px;box-shadow:var(--shadow-md);display:flex;align-items:center;gap:10px;z-index:3;font-weight:600;font-size:.9rem}
+.hero-photo-badge i{color:#25D366;font-size:1.3rem}
+
+/* CEO Card */
+.ceo-card{display:flex;gap:30px;align-items:center;flex-wrap:wrap;background:var(--card-bg);padding:36px;border-radius:var(--radius);box-shadow:var(--shadow-md);border:1px solid var(--border-color);margin-top:60px}
+.ceo-photo{width:160px;height:160px;border-radius:50%;object-fit:cover;border:6px solid var(--bg-color);box-shadow:var(--shadow-sm);flex-shrink:0}
+.ceo-info{flex:1;min-width:240px}
+.ceo-info h3{margin-bottom:4px;font-size:1.5rem}
+.ceo-role{color:var(--accent);font-weight:600;margin-bottom:12px}
+.ceo-info p{color:var(--text-light)}
+.about-photo{width:100%;max-width:420px;border-radius:28px;box-shadow:var(--shadow-md);object-fit:cover;aspect-ratio:4/5;border:6px solid var(--card-bg)}
+
+/* Grids */
+.grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:30px}
+.grid-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:40px}
+.card{background:var(--card-bg);border-radius:var(--radius);padding:32px 28px;box-shadow:var(--shadow-sm);border:1px solid var(--border-color);transition:all .25s}
+.card:hover{box-shadow:var(--shadow-md);transform:translateY(-6px);border-color:var(--accent)}
+.card-icon{width:60px;height:60px;background:rgba(255,107,53,.1);border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:1.8rem;color:var(--accent);margin-bottom:22px}
+.card h3{margin-bottom:10px}
+.card p{color:var(--text-light);font-size:.98rem}
+
+/* Software Cards */
+.software-card{background:var(--card-bg);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-sm);border:1px solid var(--border-color);transition:all .25s}
+.software-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg)}
+.software-img{height:180px;background:linear-gradient(145deg,#1e3c72,#2a5298);display:flex;align-items:center;justify-content:center;color:#fff;font-size:3.5rem}
+.software-content{padding:24px}
+.software-content h3{margin-bottom:8px}
+.software-content p{color:var(--text-light);font-size:.95rem;margin-bottom:18px}
+.software-tag{display:inline-block;background:rgba(255,107,53,.1);color:var(--accent);padding:4px 14px;border-radius:50px;font-size:.8rem;font-weight:600}
+
+/* 🌟 NEW: Testimonials Section 🌟 */
+.testimonial-card{background:var(--card-bg);padding:30px;border-radius:var(--radius);box-shadow:var(--shadow-sm);border:1px solid var(--border-color);position:relative}
+.testimonial-card i.fa-quote-left{position:absolute;top:20px;right:20px;font-size:2rem;color:rgba(255,107,53,.2)}
+.testimonial-card p{font-style:italic;color:var(--text-light);margin-bottom:20px}
+.testimonial-author{display:flex;align-items:center;gap:12px}
+.testimonial-author img{width:40px;height:40px;border-radius:50%;background:#ccc;object-fit:cover}
+
+/* 🌟 NEW: FAQ Accordion 🌟 */
+.faq-item{background:var(--card-bg);border:1px solid var(--border-color);border-radius:10px;margin-bottom:16px;overflow:hidden}
+.faq-item summary{padding:20px;font-weight:600;color:var(--text-dark);cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
+.faq-item summary::-webkit-details-marker{display:none}
+.faq-item summary::after{content:'+';font-size:1.5rem;color:var(--accent);transition:transform .3s}
+.faq-item[open] summary::after{transform:rotate(45deg)}
+.faq-content{padding:0 20px 20px;color:var(--text-light);border-top:1px solid var(--border-color);padding-top:16px}
+
+/* Contact & Form */
+.contact-form{background:var(--card-bg);padding:40px;border-radius:var(--radius);box-shadow:var(--shadow-md);border:1px solid var(--border-color)}
+.form-group{margin-bottom:22px}
+.form-group label{display:block;font-weight:600;margin-bottom:8px;color:var(--text-dark);font-size:.95rem}
+.form-group input,.form-group textarea{width:100%;padding:16px 20px;border:1.5px solid var(--border-color);border-radius:10px;font-family:inherit;font-size:1rem;transition:.2s;background:var(--bg-color);color:var(--text-main)}
+.form-group input:focus,.form-group textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 4px rgba(255,107,53,.1)}
+.form-group textarea{min-height:140px;resize:vertical}
+.contact-info-item{display:flex;align-items:center;gap:18px;background:var(--card-bg);padding:18px 24px;border-radius:60px;box-shadow:var(--shadow-sm);border:1px solid var(--border-color);transition:all .2s;text-decoration:none;color:inherit}
+.contact-info-item:hover{transform:translateX(4px);box-shadow:var(--shadow-md)}
+.contact-icon{width:48px;height:48px;background:rgba(255,107,53,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--accent);font-size:1.3rem;flex-shrink:0}
+.contact-text strong{display:block;font-size:1rem;color:var(--text-dark)}
+.contact-text span{color:var(--text-light);font-size:.95rem;word-break:break-word}
+
+/* Footer */
+footer{background:#0b1a2f;color:rgba(255,255,255,.8);padding:50px 0 30px;margin-top:40px}
+.footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:40px;margin-bottom:40px}
+.footer-brand .logo{color:#fff;margin-bottom:16px;font-size:1.5rem}
+.footer-brand p{font-size:.95rem;max-width:300px;opacity:.8}
+.footer-links h4{color:#fff;font-size:1.1rem;margin-bottom:20px}
+.footer-links ul{list-style:none}
+.footer-links li{margin-bottom:12px}
+.footer-links a{color:rgba(255,255,255,.75);text-decoration:none;font-size:.95rem;transition:color .2s}
+.footer-links a:hover{color:var(--accent)}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.1);padding-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;font-size:.9rem}
+
+/* 🌟 NEW: Floating WhatsApp Button 🌟 */
+.floating-wa{position:fixed;bottom:30px;right:30px;background:#25D366;color:#fff;width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2rem;box-shadow:0 10px 20px rgba(37,211,102,.3);z-index:9999;text-decoration:none;transition:all .3s;animation:pulse 2s infinite}
+.floating-wa:hover{transform:scale(1.1) translateY(-3px);box-shadow:0 15px 25px rgba(37,211,102,.4)}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(37,211,102,.7)}70%{box-shadow:0 0 0 15px rgba(37,211,102,0)}100%{box-shadow:0 0 0 0 rgba(37,211,102,0)}}
+
+/* 🌟 NEW: Scroll Animations 🌟 */
+.reveal{opacity:0;transform:translateY(30px);transition:all .8s ease}
+.reveal.active{opacity:1;transform:translateY(0)}
+
+@media(max-width:768px){
+    .hero{flex-direction:column;gap:40px}
+    .hero-photo{max-width:340px}
+    .ceo-card{flex-direction:column;text-align:center}
+    .contact-form{padding:28px}
+    .footer-bottom{flex-direction:column;text-align:center}
+    .about-photo{max-width:340px}
+}
+@media(max-width:480px){
+    .btn{padding:12px 24px;font-size:.95rem}
+    .hero-buttons{flex-direction:column}
+    .hero-buttons .btn{width:100%}
+    .grid-3,.grid-2{grid-template-columns:1fr}
+    .floating-wa{width:50px;height:50px;font-size:1.5rem;bottom:20px;right:20px}
+}
+.mt-5{margin-top:60px}
+.text-center{text-align:center}
+</style>
+</head>
+<body>
+
+<!-- FLOATING WHATSAPP BUTTON -->
+<a href="https://wa.me/256744393553" class="floating-wa" target="_blank" aria-label="Chat on WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+</a>
+
+<header>
+<div class="container">
+<nav class="navbar">
+    <a href="#" class="logo" data-page="home"><i class="fas fa-shield-halved"></i> Tonny<span>Lugemwa</span></a>
+    
+    <div class="nav-controls">
+        <!-- DARK MODE TOGGLE -->
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle Dark Mode">
+            <i class="fas fa-moon"></i>
+        </button>
+        <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
+    </div>
+
+    <ul class="nav-links" id="navLinks">
+        <li><a href="#" data-page="home" class="active">Home</a></li>
+        <li><a href="#" data-page="products">Products</a></li>
+        <li><a href="#" data-page="services">Services</a></li>
+        <li><a href="#" data-page="about">About</a></li>
+        <li><a href="#" data-page="faq">FAQ</a></li>
+        <li><a href="#" data-page="contact" class="nav-cta">Get a Quote</a></li>
+    </ul>
+</nav>
+</div>
+</header>
+
+<main>
+
+<!-- HOME PAGE -->
+<section id="home" class="page active-page">
+<div class="container">
+<div class="hero">
+<div class="hero-content">
+<span class="hero-badge"><i class="fas fa-bolt"></i> Trusted software partner in Uganda</span>
+<h1>Powerful software <span>built for Africa's</span> digital future</h1>
+<p>Tonny Lugemwa Technologies Uganda delivers secure, scalable, and affordable software solutions for businesses, schools, NGOs, and government agencies.</p>
+<div class="hero-buttons">
+<a href="#" class="btn btn-primary" data-page="products">Explore Products <i class="fas fa-arrow-right"></i></a>
+<a href="https://wa.me/256744393553" class="btn btn-whatsapp" target="_blank"><i class="fab fa-whatsapp"></i> Chat on WhatsApp</a>
+</div>
+<div class="hero-social">
+<span>Follow me:</span>
+<a href="https://www.tiktok.com/@tonnylugemwa" target="_blank" class="social-icon social-tiktok"><i class="fab fa-tiktok"></i></a>
+<a href="https://www.instagram.com/tonnylugemwa" target="_blank" class="social-icon social-instagram"><i class="fab fa-instagram"></i></a>
+</div>
+</div>
+<div class="hero-photo-wrap">
+<img src="hero.jpg" alt="Tonny Lugemwa - Founder" class="hero-photo">
+<div class="hero-photo-badge"><i class="fab fa-whatsapp"></i> <span>0744 393 553</span></div>
+</div>
+</div>
+
+<div class="grid-3 mt-5 reveal">
+<div class="card text-center"><div class="card-icon" style="margin:0 auto 18px"><i class="fas fa-check-circle"></i></div><h3>500+</h3><p>Businesses empowered</p></div>
+<div class="card text-center"><div class="card-icon" style="margin:0 auto 18px"><i class="fas fa-headset"></i></div><h3>24/7 Support</h3><p>Local & dedicated</p></div>
+<div class="card text-center"><div class="card-icon" style="margin:0 auto 18px"><i class="fas fa-lock"></i></div><h3>Secure by design</h3><p>Data protection first</p></div>
+</div>
+
+<div class="mt-5 reveal">
+<h2>Featured software solutions</h2>
+<p class="section-subhead">Ready-to-deploy systems tailored for Ugandan businesses.</p>
+</div>
+<div class="grid-3">
+<div class="software-card reveal"><div class="software-img"><i class="fas fa-cash-register"></i></div><div class="software-content"><h3>RetailPOS Uganda</h3><p>Complete point-of-sale with inventory, receipts, and mobile money integration.</p><span class="software-tag">Best seller</span></div></div>
+<div class="software-card reveal"><div class="software-img"><i class="fas fa-school"></i></div><div class="software-content"><h3>SchoolMaster</h3><p>Student records, fees, timetabling, and parent communication in one platform.</p><span class="software-tag">Education</span></div></div>
+<div class="software-card reveal"><div class="software-img"><i class="fas fa-chart-pie"></i></div><div class="software-content"><h3>FinTrack SME</h3><p>Accounting, invoicing, and expense tracking built for small businesses.</p><span class="software-tag">Finance</span></div></div>
+</div>
+
+<!-- TESTIMONIALS -->
+<div class="mt-5 reveal">
+    <h2>What our clients say</h2>
+    <p class="section-subhead">Don't just take our word for it.</p>
+</div>
+<div class="grid-3">
+    <div class="testimonial-card reveal">
+        <i class="fas fa-quote-left"></i>
+        <p>"Tonny built our school management system in record time. The parents love the SMS feature!"</p>
+        <div class="testimonial-author">
+            <div style="width:40px;height:40px;border-radius:50%;background:#1e3c72;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold">J</div>
+            <div><h4 style="font-size:0.95rem;color:var(--text-dark)">John M.</h4><span style="font-size:0.8rem;color:var(--text-light)">School Director</span></div>
+        </div>
+    </div>
+    <div class="testimonial-card reveal">
+        <i class="fas fa-quote-left"></i>
+        <p>"The POS system transformed my retail shop. I can track my stock from my phone anywhere in Kampala."</p>
+        <div class="testimonial-author">
+            <div style="width:40px;height:40px;border-radius:50%;background:#ff6b35;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold">S</div>
+            <div><h4 style="font-size:0.95rem;color:var(--text-dark)">Sarah K.</h4><span style="font-size:0.8rem;color:var(--text-light)">Retail Owner</span></div>
+        </div>
+    </div>
+</div>
+
+<div class="ceo-card reveal">
+<img src="ceo.jpg" alt="Tonny Lugemwa - CEO" class="ceo-photo">
+<div class="ceo-info">
+<h3>Tonny Lugemwa</h3>
+<p class="ceo-role">Founder & CEO</p>
+<p>Leading Tonny Lugemwa Technologies Uganda with a passion for building software that transforms businesses across East Africa. With years of hands-on experience in software development and digital strategy, Tonny ensures every solution we deliver is built with quality, integrity, and impact.</p>
+</div>
+<a href="https://wa.me/256744393553" class="btn btn-whatsapp" target="_blank"><i class="fab fa-whatsapp"></i> Talk to Tonny</a>
+</div>
+</div>
+</section>
+
+<!-- PRODUCTS PAGE -->
+<section id="products" class="page">
+<div class="container">
+<h2>Our software products</h2>
+<p class="section-subhead">Off-the-shelf systems you can customize — or we can build from scratch.</p>
+<div class="grid-3">
+<div class="software-card reveal"><div class="software-img"><i class="fas fa-cash-register"></i></div><div class="software-content"><h3>RetailPOS Uganda</h3><p>Point of sale with barcode scanning, stock alerts, and daily sales reports.</p><span class="software-tag">Retail</span></div></div>
+<div class="software-card reveal"><div class="software-img"><i class="fas fa-school"></i></div><div class="software-content"><h3>SchoolMaster</h3><p>Manage students, staff, fees, exams, and communicate with parents via SMS.</p><span class="software-tag">Education</span></div></div>
+<div class="software-card reveal"><div class="software-img"><i class="fas fa-hospital"></i></div><div class="software-content"><h3>ClinicCare</h3><p>Patient records, appointments, billing, and pharmacy inventory for clinics.</p><span class="software-tag">Healthcare</span></div></div>
+<div class="software-card reveal"><div class="software-img"><i class="fas fa-chart-pie"></i></div><div class="software-content"><h3>FinTrack SME</h3><p>Invoicing, expense tracking, and financial reports for small businesses.</p><span class="software-tag">Finance</span></div></div>
+<div class="software-card reveal"><div class="software-img"><i class="fas fa-users"></i></div><div class="software-content"><h3>HRM Suite</h3><p>Employee records, payroll, leave management, and performance tracking.</p><span class="software-tag">HR</span></div></div>
+<div class="software-card reveal"><div class="software-img"><i class="fas fa-boxes"></i></div><div class="software-content"><h3>StockLink</h3><p>Multi-branch inventory management with real-time sync and reporting.</p><span class="software-tag">Logistics</span></div></div>
+</div>
+</div>
+</section>
+
+<!-- SERVICES PAGE -->
+<section id="services" class="page">
+<div class="container">
+<h2>What we do</h2>
+<p class="section-subhead">End-to-end technology services for modern organisations.</p>
+<div class="grid-3">
+<div class="card reveal"><div class="card-icon"><i class="fas fa-code"></i></div><h3>Custom Software Development</h3><p>Web and mobile applications built around your unique business processes.</p></div>
+<div class="card reveal"><div class="card-icon"><i class="fas fa-mobile-alt"></i></div><h3>Mobile App Development</h3><p>Android and iOS apps for customer engagement, field work, and more.</p></div>
+<div class="card reveal"><div class="card-icon"><i class="fas fa-cloud"></i></div><h3>Cloud & Hosting</h3><p>Reliable hosting, domain setup, and cloud infrastructure management.</p></div>
+<div class="card reveal"><div class="card-icon"><i class="fas fa-shield-alt"></i></div><h3>Cybersecurity</h3><p>Security audits, penetration testing, and data protection strategies.</p></div>
+<div class="card reveal"><div class="card-icon"><i class="fas fa-chart-line"></i></div><h3>IT Consulting</h3><p>Digital transformation roadmaps, system selection, and process automation.</p></div>
+<div class="card reveal"><div class="card-icon"><i class="fas fa-headset"></i></div><h3>Maintenance & Support</h3><p>Ongoing technical support, updates, and monitoring for your systems.</p></div>
+</div>
+</div>
+</section>
+
+<!-- ABOUT PAGE -->
+<section id="about" class="page">
+<div class="container">
+<h2>About Tonny Lugemwa Technologies Uganda</h2>
+<p class="section-subhead">Building Uganda's digital backbone, one solution at a time.</p>
+<div class="grid-2">
+<div class="reveal">
+<p style="font-size:1.1rem;margin-bottom:20px">Founded in Kampala, Tonny Lugemwa Technologies Uganda is a homegrown software company on a mission to empower African businesses with reliable, affordable, and innovative technology.</p>
+<p style="margin-bottom:20px">We combine deep local knowledge with international best practices to deliver software that actually solves problems. From retail shops in Kampala to schools in Gulu, our systems are running in organisations of all sizes.</p>
+<p>Our team is passionate about technology, but even more passionate about seeing our clients succeed. That's why we don't just sell software — we partner with you for the long term.</p>
+<div style="margin-top:30px;display:flex;gap:20px;flex-wrap:wrap">
+<div><i class="fas fa-check-circle" style="color:var(--accent)"></i> <strong>500+</strong> clients served</div>
+<div><i class="fas fa-check-circle" style="color:var(--accent)"></i> <strong>10+</strong> software products</div>
+<div><i class="fas fa-check-circle" style="color:var(--accent)"></i> <strong>8 years</strong> of experience</div>
+</div>
+</div>
+<div class="reveal">
+<img src="about.jpg" alt="Tonny Lugemwa" class="about-photo">
+</div>
+</div>
+</div>
+</section>
+
+<!-- 🌟 NEW: FAQ PAGE 🌟 -->
+<section id="faq" class="page">
+<div class="container">
+<h2>Frequently Asked Questions</h2>
+<p class="section-subhead">Everything you need to know about working with us.</p>
+<div style="max-width:800px;margin:0 auto" class="reveal">
+    <details class="faq-item" open>
+        <summary>How long does it take to build custom software?</summary>
+        <div class="faq-content">Depending on the complexity, a standard web application takes 4-8 weeks. We provide a clear timeline during our initial consultation.</div>
+    </details>
+    <details class="faq-item">
+        <summary>Do you offer support after the system is deployed?</summary>
+        <div class="faq-content">Absolutely! We provide 24/7 technical support, regular updates, and maintenance packages to ensure your system never goes down.</div>
+    </details>
+    <details class="faq-item">
+        <summary>Can the software work offline?</summary>
+        <div class="faq-content">Yes, our POS and inventory systems are designed to work offline and automatically sync to the cloud once an internet connection is restored.</div>
+    </details>
+    <details class="faq-item">
+        <summary>How much does it cost?</summary>
+        <div class="faq-content">We offer flexible pricing based on your needs. Whether you are a startup or a large enterprise, we have packages that fit your budget. Contact us for a free quote!</div>
+    </details>
+</div>
+</div>
+</section>
+
+<!-- CONTACT PAGE -->
+<section id="contact" class="page">
+<div class="container">
+<h2>Get in touch</h2>
+<p class="section-subhead">Let's discuss your project. Reach us on WhatsApp, social media, or email.</p>
+<div class="grid-2">
+<div class="contact-form reveal">
+<!-- 🚀 PRO TIP: Change action to Formspree URL -->
+<form action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST">
+<div class="form-group"><label>Full Name</label><input type="text" name="name" placeholder="Your name" required></div>
+<div class="form-group"><label>Email Address</label><input type="email" name="email" placeholder="you@example.com" required></div>
+<div class="form-group"><label>Phone / WhatsApp</label><input type="tel" name="phone" placeholder="+256 ..."></div>
+<div class="form-group"><label>Message</label><textarea name="message" placeholder="Tell us about your project..." required></textarea></div>
+<button type="submit" class="btn btn-primary" style="width:100%">Send Message <i class="fas fa-paper-plane"></i></button>
+</form>
+</div>
+<div style="display:flex;flex-direction:column;gap:18px" class="reveal">
+<a href="https://wa.me/256744393553" class="contact-info-item" target="_blank">
+<div class="contact-icon" style="background:#e6ffe9;color:#25D366"><i class="fab fa-whatsapp"></i></div>
+<div class="contact-text"><strong>WhatsApp</strong><span>0744 393 553</span></div>
+</a>
+<a href="mailto:tonnylugemwa23@gmail.com" class="contact-info-item">
+<div class="contact-icon"><i class="fas fa-envelope"></i></div>
+<div class="contact-text"><strong>Email</strong><span>tonnylugemwa23@gmail.com</span></div>
+</a>
+<a href="https://www.tiktok.com/@tonnylugemwa" class="contact-info-item" target="_blank">
+<div class="contact-icon" style="background:#000;color:#fff"><i class="fab fa-tiktok"></i></div>
+<div class="contact-text"><strong>TikTok</strong><span>@tonnylugemwa</span></div>
+</a>
+<a href="https://www.instagram.com/tonnylugemwa" class="contact-info-item" target="_blank">
+<div class="contact-icon" style="background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);color:#fff"><i class="fab fa-instagram"></i></div>
+<div class="contact-text"><strong>Instagram</strong><span>@tonnylugemwa</span></div>
+</a>
+<a href="https://x.com/tonnylugemwa" class="contact-info-item" target="_blank">
+<div class="contact-icon" style="background:#000;color:#fff"><i class="fab fa-x-twitter"></i></div>
+<div class="contact-text"><strong>X (Twitter)</strong><span>@tonnylugemwa</span></div>
+</a>
+<a href="https://facebook.com/tonnylugemwa" class="contact-info-item" target="_blank">
+<div class="contact-icon" style="background:#1877F2;color:#fff"><i class="fab fa-facebook-f"></i></div>
+<div class="contact-text"><strong>Facebook</strong><span>@tonnylugemwa</span></div>
+</a>
+</div>
+</div>
+</div>
+</section>
+
+</main>
+
+<footer>
+<div class="container">
+<div class="footer-grid">
+<div class="footer-brand">
+<a href="#" class="logo"><i class="fas fa-shield-halved"></i> Tonny<span>Lugemwa</span></a>
+<p>Building Uganda's digital future with secure, scalable, and affordable software solutions.</p>
+</div>
+<div class="footer-links">
+<h4>Quick Links</h4>
+<ul>
+<li><a href="#" data-page="home">Home</a></li>
+<li><a href="#" data-page="products">Products</a></li>
+<li><a href="#" data-page="services">Services</a></li>
+<li><a href="#" data-page="about">About</a></li>
+<li><a href="#" data-page="faq">FAQ</a></li>
+</ul>
+</div>
+<div class="footer-links">
+<h4>Contact</h4>
+<ul>
+<li><a href="https://wa.me/256744393553" target="_blank"><i class="fab fa-whatsapp"></i> 0744 393 553</a></li>
+<li><a href="mailto:tonnylugemwa23@gmail.com"><i class="fas fa-envelope"></i> tonnylugemwa23@gmail.com</a></li>
+<li><a href="#"><i class="fas fa-map-marker-alt"></i> Kampala, Uganda</a></li>
+</ul>
+</div>
+</div>
+<div class="footer-bottom">
+<p>© 2025 Tonny Lugemwa Technologies Uganda. All rights reserved.</p>
+<p>Made with <i class="fas fa-heart" style="color:var(--accent)"></i> in Kampala</p>
+</div>
+</div>
+</footer>
+
+<script>
+// --- 🌟 NEW: DARK MODE LOGIC 🌟 ---
+const themeToggle = document.getElementById('themeToggle');
+const themeIcon = themeToggle.querySelector('i');
+const currentTheme = localStorage.getItem('theme');
+
+if (currentTheme === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    themeIcon.classList.replace('fa-moon', 'fa-sun');
+}
+
+themeToggle.addEventListener('click', () => {
+    let theme = document.documentElement.getAttribute('data-theme');
+    if (theme === 'dark') {
+        document.documentElement.removeAttribute('data-theme');
+        localStorage.setItem('theme', 'light');
+        themeIcon.classList.replace('fa-sun', 'fa-moon');
+    } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+        themeIcon.classList.replace('fa-moon', 'fa-sun');
+    }
+});
+
+// --- PAGE SWITCHING LOGIC ---
+const pages=document.querySelectorAll('.page');
+function showPage(id){
+    pages.forEach(p=>p.classList.remove('active-page'));
+    const t=document.getElementById(id);
+    if(t)t.classList.add('active-page');
+    
+    document.querySelectorAll('.nav-links a').forEach(a=>{
+        a.classList.remove('active');
+        if(a.getAttribute('data-page')===id)a.classList.add('active');
+    });
+    window.scrollTo({top:0,behavior:'smooth'});
+    document.getElementById('navLinks').classList.remove('show');
+    
+    // Trigger reveal animations for newly shown page
+    setTimeout(reveal, 100);
+}
+
+document.body.addEventListener('click',e=>{
+    const l=e.target.closest('[data-page]');
+    if(l){e.preventDefault();showPage(l.getAttribute('data-page'));}
+});
+
+document.getElementById('menuToggle').addEventListener('click',()=>{
+    document.getElementById('navLinks').classList.toggle('show');
+});
+
+// --- 🌟 NEW: SCROLL ANIMATIONS LOGIC 🌟 ---
+function reveal() {
+    var reveals = document.querySelectorAll(".reveal");
+    for (var i = 0; i < reveals.length; i++) {
+        var windowHeight = window.innerHeight;
+        var elementTop = reveals[i].getBoundingClientRect().top;
+        var elementVisible = 100;
+        if (elementTop < windowHeight - elementVisible) {
+            reveals[i].classList.add("active");
+        }
+    }
+}
+window.addEventListener("scroll", reveal);
+reveal(); // Trigger once on load
+</script>
+
+</body>
+</html>
